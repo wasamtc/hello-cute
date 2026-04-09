@@ -381,3 +381,47 @@ Layout e = flatten(c);                    // (_2,_3,_5,_7):(_1,_2,_6,_30)
 分组、展平和重排 mode，可以让你原地重解释 tensor，例如把矩阵看成向量，把向量看成矩阵，或者把某些分层结构折叠成更简单的视图。
 
 # 测试
+
+这一节对应的测试名是 `layout_base`。
+
+运行方式：
+
+```bash
+python tests/run.py layout_base
+```
+
+脚本会输出 5 个 layout 和对应的 5 个输入坐标，要求你按顺序输入这 5 个坐标对应的线性索引（空格分隔）。脚本会用 `cute` 的 `crd2idx` 结果来判分。
+
+每次运行时，这 5 道题的题型保持不变，但具体的 shape、stride 和输入坐标会随机生成，所以题目不会固定死。如果你想复现同一套题，可以显式指定随机种子：
+
+```bash
+python tests/run.py layout_base --seed 20260409
+```
+
+测试脚本位置：
+
+- `tests/run.py`
+- `tests/layout_base/quiz.py`
+
+依赖说明：
+
+- 仓库里自带了 `pycute`，它是 CuTe layout algebra 的 Python 镜像实现，这套交互题默认用它来判分。
+- 即使你本地安装了官方的 CuTe Python DSL，当前版本的 `cutlass.cute` 里 layout algebra 也主要要求放在 `@cute.jit` 函数里执行，不能直接当 eager Python API 来写这类命令行问答脚本；因此脚本检测到这种情况时会自动回退到 `pycute`。
+- 如果你想安装官方 DSL 环境，仍然可以执行：
+
+```bash
+pip install -r requirements.txt
+```
+
+如果你使用的是 CUDA 13 环境，可以改用：
+
+```bash
+pip install -r requirements-cu13.txt
+```
+
+另外，测试脚本也支持非交互模式，便于自测：
+
+```bash
+python tests/run.py layout_base --show-answers
+python tests/run.py layout_base --seed 20260409 --show-answers
+```
