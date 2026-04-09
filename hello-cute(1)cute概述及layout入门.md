@@ -277,6 +277,7 @@ idx2crd((1, 5), (3, (2, 3)))
 ```
 
 ### 从逻辑坐标到线性索引
+
 这部分映射主要由`stride`决定。
 这个计算很简单，就是把逻辑坐标与stride做内积。
 例如，对于 layout：
@@ -300,6 +301,7 @@ print(crd2idx(make_coord(_1{},_5{}), shape, stride));  // _17
 print(crd2idx(make_coord(   1,make_coord(   1,   2)), shape, stride));  // 17
 print(crd2idx(make_coord(_1{},make_coord(_1{},_2{})), shape, stride));  // _17
 ```
+
 ## layout变换
 
 下面的都比较简单，这里我就直接用官方的例子了
