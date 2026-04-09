@@ -130,11 +130,11 @@ s2xh4_col :  (2,(2,2)):(4,(2,1))
 layout的根本用途是把坐标通过shape和stride映射到线性索引（物理地址）。例子可见[layout](#layout)。
 要完成这种转换需要两个核心映射：
 
-- idx2crd(idx, shape)：从输入坐标到逻辑坐标的映射。
-- crd2idx(crd, shape, stride)：从逻辑坐标crd到线性索引idx的映射。
+- idx2crd(idx, shape)：从输入坐标到逻辑坐标的映射，由 `Shape` 决定。
+- crd2idx(crd, shape, stride)：从逻辑坐标crd到线性索引idx的映射，，由 `Stride` 决定。
 
 ### 从输入坐标到逻辑坐标
-
+这部分映射主要由`shape`决定。
 从输入坐标到逻辑坐标的映射由idx2crd完成。首先对于一个layout，其有多种坐标集表示方式，例如对于shape `(3,(2,3))`，它同时拥有：
 
 - 一维坐标集
@@ -276,6 +276,30 @@ idx2crd((1, 5), (3, (2, 3)))
 = (1, (1, 2))
 ```
 
+### 从逻辑坐标到线性索引
+这部分映射主要由`stride`决定。
+这个计算很简单，就是把逻辑坐标与stride做内积。
+例如，对于 layout：
+
+`(3,(2,3)):(3,(12,1))`
+
+自然坐标 `(i,(j,k))` 会被映射成：
+
+`i*3 + j*12 + k*1`
+
+索引映射由 `cute::crd2idx(c, shape, stride)` 完成。它会先把输入坐标转成该 shape 对应的自然坐标（这部分同第一种映射），再与 stride 做内积：
+
+```cpp
+auto shape  = Shape <_3,Shape<  _2,_3>>{};
+auto stride = Stride<_3,Stride<_12,_1>>{};
+print(crd2idx(   16, shape, stride));       // 17
+print(crd2idx(_16{}, shape, stride));       // _17
+print(crd2idx(make_coord(   1,   5), shape, stride));  // 17
+print(crd2idx(make_coord(_1{},   5), shape, stride));  // 17
+print(crd2idx(make_coord(_1{},_5{}), shape, stride));  // _17
+print(crd2idx(make_coord(   1,make_coord(   1,   2)), shape, stride));  // 17
+print(crd2idx(make_coord(_1{},make_coord(_1{},_2{})), shape, stride));  // _17
+```
 ## layout变换
 
 下面的都比较简单，这里我就直接用官方的例子了
