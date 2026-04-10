@@ -9,6 +9,7 @@
 ## 目录
 
 - [hello-cute01：cute概述及layout入门.md](hello-cute01：cute概述及layout入门.md)
+- [hello-cute02：layout的代数运算.md](hello-cute02：layout的代数运算.md)
 
 ## 环境部署
 
@@ -74,20 +75,26 @@ pip install -r requirements-cu13.txt
 
 ## 测试方式
 
-当前第一章对应的测试名是 `layout_base`。
+当前已提供的测试名如下：
+
+- 第一章：`layout_base`
+- 第二章：`layout_algebra`
 
 ### 1. 交互式测试
 
 ```bash
 python tests/run.py layout_base
+python tests/run.py layout_algebra
 ```
 
-脚本会生成 5 道题，输出对应的 layout 和输入坐标，要求你按顺序输入 5 个线性索引答案。
+- `layout_base` 会生成 5 道基础 layout / `crd2idx` 题。
+- `layout_algebra` 会生成 2 道 layout 代数题，分别考 `logical_divide` 和 `logical_product`，需要直接写出结果 layout。
 
 ### 2. 固定随机种子，复现同一套题
 
 ```bash
 python tests/run.py layout_base --seed 20260409
+python tests/run.py layout_algebra --seed 20260410
 ```
 
 ### 3. 查看标准答案
@@ -95,6 +102,8 @@ python tests/run.py layout_base --seed 20260409
 ```bash
 python tests/run.py layout_base --show-answers
 python tests/run.py layout_base --seed 20260409 --show-answers
+python tests/run.py layout_algebra --show-answers
+python tests/run.py layout_algebra --seed 20260410 --show-answers
 ```
 
 ### 4. 非交互判分
@@ -103,12 +112,14 @@ python tests/run.py layout_base --seed 20260409 --show-answers
 
 ```bash
 python tests/run.py layout_base --seed 20260409 --answers 5 9 11 14 7
+python tests/run.py layout_algebra --seed 20260410 --answers "(4,3):(1,4)" "((3,4),(2,2)):((1,3),(12,24))"
 ```
 
 ### 5. 测试脚本位置
 
 - `tests/run.py`
 - `tests/layout_base/quiz.py`
+- `tests/layout_algebra/quiz.py`
 
 ## 参考
 
