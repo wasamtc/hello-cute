@@ -632,3 +632,41 @@ flat_product    : (M, N, TileM, TileN, L, ...)
 ```
 
 这里官方的介绍就比较简略，文章暂时也不详细介绍。
+
+# 测试
+
+这一节对应的测试名是 `layout_algebra`。
+
+运行方式：
+
+```bash
+python tests/run.py layout_algebra
+```
+
+脚本每次会随机生成 2 道题：
+
+- 1 道 `logical_divide(A, B)`
+- 1 道 `logical_product(A, B)`
+
+你需要根据题目里给出的 `A` 和 `B`，写出结果 layout。答案需要按 `shape:stride` 的完整格式输入，例如：
+
+```text
+(4, 3):(1, 4)
+((3, 4), (2, 2)):((1, 3), (12, 24))
+```
+
+空格不敏感；交互模式下每题输入一行。
+
+如果你想复现同一套题，可以显式指定随机种子：
+
+```bash
+python tests/run.py layout_algebra --seed 20260410
+```
+
+另外，脚本也支持直接查看标准答案或做非交互判分：
+
+```bash
+python tests/run.py layout_algebra --show-answers
+python tests/run.py layout_algebra --seed 20260410 --show-answers
+python tests/run.py layout_algebra --seed 20260410 --answers "(4,3):(1,4)" "((3,4),(2,2)):((1,3),(12,24))"
+```
