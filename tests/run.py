@@ -8,6 +8,7 @@ from pathlib import Path
 TEST_RUNNERS = {
     "layout_base": "layout_base.quiz",
     "layout_algebra": "layout_algebra.quiz",
+    "mma_atom": "mma_atom.quiz",
 }
 
 

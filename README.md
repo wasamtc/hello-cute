@@ -10,6 +10,7 @@
 
 - [hello-cute01：cute概述及layout入门.md](hello-cute01：cute概述及layout入门.md)
 - [hello-cute02：layout的代数运算.md](hello-cute02：layout的代数运算.md)
+- [hello-cute05：mma_atom.md](hello-cute05：mma_atom.md)
 
 ## 环境部署
 
@@ -79,22 +80,26 @@ pip install -r requirements-cu13.txt
 
 - 第一章：`layout_base`
 - 第二章：`layout_algebra`
+- 第五章：`mma_atom`
 
 ### 1. 交互式测试
 
 ```bash
 python tests/run.py layout_base
 python tests/run.py layout_algebra
+python tests/run.py mma_atom
 ```
 
 - `layout_base` 会生成 5 道基础 layout / `crd2idx` 题。
 - `layout_algebra` 会生成 2 道 layout 代数题，分别考 `logical_divide` 和 `logical_product`，需要直接写出结果 layout。
+- `mma_atom` 会随机抽 3 个真实 `MMA operation`，要求直接写出 `MMA_Traits<Operation>::CLayout`。
 
 ### 2. 固定随机种子，复现同一套题
 
 ```bash
 python tests/run.py layout_base --seed 20260409
 python tests/run.py layout_algebra --seed 20260410
+python tests/run.py mma_atom --seed 20260415
 ```
 
 ### 3. 查看标准答案
@@ -104,6 +109,8 @@ python tests/run.py layout_base --show-answers
 python tests/run.py layout_base --seed 20260409 --show-answers
 python tests/run.py layout_algebra --show-answers
 python tests/run.py layout_algebra --seed 20260410 --show-answers
+python tests/run.py mma_atom --show-answers
+python tests/run.py mma_atom --seed 20260415 --show-answers
 ```
 
 ### 4. 非交互判分
@@ -113,6 +120,7 @@ python tests/run.py layout_algebra --seed 20260410 --show-answers
 ```bash
 python tests/run.py layout_base --seed 20260409 --answers 5 9 11 14 7
 python tests/run.py layout_algebra --seed 20260410 --answers "(4,3):(1,4)" "((3,4),(2,2)):((1,3),(12,24))"
+python tests/run.py mma_atom --seed 20260415 --answers "((4,8),2):((16,1),8)" "((2,2,2),(2,2,2)):((1,16,4),(8,2,32))" "((4,8),(2,2)):((32,1),(16,8))"
 ```
 
 ### 5. 测试脚本位置
@@ -120,6 +128,7 @@ python tests/run.py layout_algebra --seed 20260410 --answers "(4,3):(1,4)" "((3,
 - `tests/run.py`
 - `tests/layout_base/quiz.py`
 - `tests/layout_algebra/quiz.py`
+- `tests/mma_atom/quiz.py`
 
 ## 参考
 
